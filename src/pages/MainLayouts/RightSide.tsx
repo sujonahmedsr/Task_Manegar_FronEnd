@@ -38,29 +38,34 @@ import {
 } from "@/components/ui/popover"
 import { CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
+import { useState } from "react";
 const formSchema = z.object({
     name: z.string({ required_error: "Name is required." }),
     description: z.string({ required_error: "Description is required." }),
     priority: z.string({ required_error: "Priority is required." }),
     dueDate: z.date({ required_error: "Due Date is required." }),
+    isCompleted: z.boolean().optional(),
 });
 const RightSide = () => {
     const date = new Date()
-    
-    // const [date, setDate] = React.useState<Date>()
+    const [open, setOpen] = useState(false)
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
     })
+    const {reset} = form
+    
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
-        console.log('hello ok');
 
         console.log(data);
+
+        reset()
+        setOpen(!open)
     }
     return (
         <div className="col-span-3  sticky top-0 left-0 h-[100vh] flex flex-col p-5 items-center gap-4">
-            <Dialog>
+            <Dialog open={open} onOpenChange={setOpen}>
                 <DialogTrigger asChild>
-                    <Button>Add Task</Button>
+                    <Button onClick={() => setOpen(!open)}>Add Task</Button>
                 </DialogTrigger>
                 <DialogContent aria-describedby={undefined} className="sm:max-w-[425px]">
                     <DialogTitle>Add Task</DialogTitle>
@@ -121,6 +126,35 @@ const RightSide = () => {
                                                         <SelectItem value="Low">Low</SelectItem>
                                                         <SelectItem value="Medium">Medium</SelectItem>
                                                         <SelectItem value="High">High</SelectItem>
+                                                    </SelectGroup>
+                                                </SelectContent>
+                                            </Select>
+                                        </FormControl>
+                                        {
+                                            error && <p className="text-red-500">{error.message}</p>
+                                        }
+                                    </FormItem>
+                                )}
+                            />
+
+                            <FormField
+                                control={form.control}
+                                name="isCompleted"
+                                render={({ field, fieldState: { error } }) => (
+                                    <FormItem>
+                                        <FormLabel>Is Completed</FormLabel>
+                                        <FormControl>
+                                            <Select
+                                                value={field.value !== null ? String(field.value) : undefined} // Use field.value for controlled behavior
+                                                onValueChange={(value) => field.onChange(value === "true")} // Update form state
+                                            >
+                                                <SelectTrigger className="w-full">
+                                                    <SelectValue placeholder="Select a fruit" />
+                                                </SelectTrigger>
+                                                <SelectContent>
+                                                    <SelectGroup>
+                                                        <SelectItem value={"true"}>Yes</SelectItem>
+                                                        <SelectItem value={"false"}>No</SelectItem>
                                                     </SelectGroup>
                                                 </SelectContent>
                                             </Select>
