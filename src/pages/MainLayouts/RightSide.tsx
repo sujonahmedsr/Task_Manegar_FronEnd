@@ -1,48 +1,183 @@
 import dummyImg from "../../assets/dummy.png"
-import { Button } from "@/components/ui/button";
 import { Chart } from "../Chart";
 import {
     Dialog,
     DialogContent,
-    DialogDescription,
-    DialogFooter,
-    DialogHeader,
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+import { Button } from "@/components/ui/button";
+import {
+    Form,
+    FormControl,
+    FormField,
+    FormItem,
+    FormLabel,
+} from "@/components/ui/form"
+import {
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select"
+import {
+    zodResolver
+} from "@hookform/resolvers/zod"
+import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+import * as z from "zod"
+import { Textarea } from "@/components/ui/textarea";
+import { cn } from "@/lib/utils";
+import { Calendar } from "@/components/ui/calendar"
+import {
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
+} from "@/components/ui/popover"
+import { CalendarIcon } from "lucide-react";
+import { format } from "date-fns";
+const formSchema = z.object({
+    name: z.string({ required_error: "Name is required." }),
+    description: z.string({ required_error: "Description is required." }),
+    priority: z.string({ required_error: "Priority is required." }),
+    dueDate: z.date({ required_error: "Due Date is required." }),
+});
 const RightSide = () => {
+    const date = new Date()
+    
+    // const [date, setDate] = React.useState<Date>()
+    const form = useForm<z.infer<typeof formSchema>>({
+        resolver: zodResolver(formSchema),
+    })
+    const onSubmit: SubmitHandler<FieldValues> = (data) => {
+        console.log('hello ok');
+
+        console.log(data);
+    }
     return (
         <div className="col-span-3  sticky top-0 left-0 h-[100vh] flex flex-col p-5 items-center gap-4">
             <Dialog>
                 <DialogTrigger asChild>
                     <Button>Add Task</Button>
                 </DialogTrigger>
-                <DialogContent className="sm:max-w-[425px]">
-                    <DialogHeader>
-                        <DialogTitle>Add Task</DialogTitle>
-                        <DialogDescription>
-                            Make changes to your profile here. Click save when you're done.
-                        </DialogDescription>
-                    </DialogHeader>
-                    <div className="grid gap-4 py-4">
-                        <div className="grid grid-cols-4 items-center gap-4">
-                            <Label htmlFor="name" className="text-right">
-                                Name
-                            </Label>
-                            <Input id="name" value="Pedro Duarte" className="col-span-3" />
-                        </div>
-                        <div className="grid grid-cols-4 items-center gap-4">
-                            <Label htmlFor="username" className="text-right">
-                                Username
-                            </Label>
-                            <Input id="username" value="@peduarte" className="col-span-3" />
-                        </div>
-                    </div>
-                    <DialogFooter>
-                        <Button type="submit">Create Task</Button>
-                    </DialogFooter>
+                <DialogContent aria-describedby={undefined} className="sm:max-w-[425px]">
+                    <DialogTitle>Add Task</DialogTitle>
+                    <Form {...form}>
+                        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2 max-w-md mx-auto w-full">
+                            <FormField
+                                control={form.control}
+                                name="name"
+                                render={({ field, fieldState: { error } }) => (
+                                    <FormItem>
+                                        <FormLabel>Name</FormLabel>
+                                        <FormControl>
+                                            <Input placeholder="Name" {...field} value={field.value || ''} />
+                                        </FormControl>
+                                        {
+                                            error && <p className="text-red-500">{error.message}</p>
+                                        }
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name="description"
+                                render={({ field, fieldState: { error } }) => (
+                                    <FormItem>
+                                        <FormLabel>Description</FormLabel>
+                                        <FormControl>
+                                            <Textarea
+                                                id="description-dialog" // Set the ID to match `aria-describedby`
+                                                placeholder="Enter description"
+                                                {...field}
+                                                value={field.value || ''}
+                                            />
+                                        </FormControl>
+                                        {
+                                            error && <p className="text-red-500">{error.message}</p>
+                                        }
+                                    </FormItem>
+                                )}
+                            />
+
+                            <FormField
+                                control={form.control}
+                                name="priority"
+                                render={({ field, fieldState: { error } }) => (
+                                    <FormItem>
+                                        <FormLabel>Priority</FormLabel>
+                                        <FormControl>
+                                            <Select
+                                                value={field.value || ''} // Use field.value for controlled behavior
+                                                onValueChange={field.onChange} // Update form state
+                                            >
+                                                <SelectTrigger className="w-full">
+                                                    <SelectValue placeholder="Select a fruit" />
+                                                </SelectTrigger>
+                                                <SelectContent>
+                                                    <SelectGroup>
+                                                        <SelectItem value="Low">Low</SelectItem>
+                                                        <SelectItem value="Medium">Medium</SelectItem>
+                                                        <SelectItem value="High">High</SelectItem>
+                                                    </SelectGroup>
+                                                </SelectContent>
+                                            </Select>
+                                        </FormControl>
+                                        {
+                                            error && <p className="text-red-500">{error.message}</p>
+                                        }
+                                    </FormItem>
+                                )}
+                            />
+
+                            <FormField
+                                control={form.control}
+                                name="dueDate"
+                                render={({ field, fieldState: { error } }) => (
+                                    <FormItem>
+                                        <FormLabel>Due Date</FormLabel>
+                                        <FormControl>
+                                            <Popover>
+                                                <PopoverTrigger asChild>
+                                                    <Button
+
+                                                        variant={"outline"}
+                                                        className={cn(
+                                                            "w-[240px] justify-start text-left font-normal",
+                                                        )}
+                                                    >
+                                                        <CalendarIcon />
+                                                        {field.value
+                                                            ? format(field.value, "PPP")
+                                                            : <span>Pick a date</span>}
+                                                    </Button>
+                                                </PopoverTrigger>
+                                                <PopoverContent className="w-auto p-0" align="start">
+                                                    <Calendar
+                                                        mode="single"
+                                                        selected={date || field.value || undefined}
+                                                        onSelect={(selectedDate) => field.onChange(selectedDate)}
+                                                        initialFocus
+                                                    />
+                                                </PopoverContent>
+                                            </Popover>
+                                        </FormControl>
+                                        {
+                                            error && <p className="text-red-500">{error.message}</p>
+                                        }
+                                    </FormItem>
+                                )}
+                            />
+
+
+
+
+
+                            <Button type="submit" className="w-full">Create Task</Button>
+                        </form>
+                    </Form>
                 </DialogContent>
             </Dialog>
             <div className="flex items-center gap-4 p-5 hover:bg-gray-200 duration-300 w-full">
