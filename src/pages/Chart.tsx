@@ -72,7 +72,7 @@ export function Chart() {
                           y={(viewBox.cy || 0) + 4}
                           className="fill-muted-foreground"
                         >
-                          Visitors
+                          Task
                         </tspan>
                       </text>
                     )
