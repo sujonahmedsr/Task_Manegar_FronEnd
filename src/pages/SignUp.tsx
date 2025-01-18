@@ -47,7 +47,7 @@ const SignUp = () => {
                             <FormItem>
                                 <FormLabel>Name</FormLabel>
                                 <FormControl>
-                                    <Input placeholder="Name" {...field} />
+                                    <Input placeholder="Name" {...field} value={field.value || ''}/>
                                 </FormControl>
                                 {
                                     error && <p className="text-red-500">{error.message}</p>
@@ -69,7 +69,7 @@ const SignUp = () => {
                             <FormItem>
                                 <FormLabel>Email</FormLabel>
                                 <FormControl>
-                                    <Input placeholder="Email" {...field} />
+                                    <Input placeholder="Email" {...field} value={field.value || ''}/>
                                 </FormControl>
                                 {
                                     error && <p className="text-red-500">{error.message}</p>
@@ -84,7 +84,7 @@ const SignUp = () => {
                             <FormItem>
                                 <FormLabel>Password</FormLabel>
                                 <FormControl>
-                                    <PasswordInput placeholder="Passowrd" {...field} />
+                                    <PasswordInput placeholder="Passowrd" {...field} value={field.value || ''}/>
                                 </FormControl>
                                 {
                                     error && <p className="text-red-500">{error.message}</p>

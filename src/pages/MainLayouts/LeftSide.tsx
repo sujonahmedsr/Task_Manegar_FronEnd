@@ -17,7 +17,7 @@ const LeftSide = () => {
                         <button title="Pending Task" className="hover:text-red-500 duration-300"><MdOutlinePending /></button>
                     </div>
                 </div>
-                <Button variant={"outline"}>Log Out</Button>
+                <Button>Log Out</Button>
             </div>
         </div>
     );

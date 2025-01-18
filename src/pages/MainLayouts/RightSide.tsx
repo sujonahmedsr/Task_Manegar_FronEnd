@@ -17,11 +17,11 @@ const RightSide = () => {
         <div className="col-span-3  sticky top-0 left-0 h-[100vh] flex flex-col p-5 items-center gap-4">
             <Dialog>
                 <DialogTrigger asChild>
-                    <Button variant="outline">Edit Profile</Button>
+                    <Button>Add Task</Button>
                 </DialogTrigger>
                 <DialogContent className="sm:max-w-[425px]">
                     <DialogHeader>
-                        <DialogTitle>Edit profile</DialogTitle>
+                        <DialogTitle>Add Task</DialogTitle>
                         <DialogDescription>
                             Make changes to your profile here. Click save when you're done.
                         </DialogDescription>
@@ -41,7 +41,7 @@ const RightSide = () => {
                         </div>
                     </div>
                     <DialogFooter>
-                        <Button type="submit">Save changes</Button>
+                        <Button type="submit">Create Task</Button>
                     </DialogFooter>
                 </DialogContent>
             </Dialog>
