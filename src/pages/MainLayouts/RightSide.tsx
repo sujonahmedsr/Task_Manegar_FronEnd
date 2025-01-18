@@ -38,6 +38,7 @@ import { CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
 import { useState } from "react";
 import UserProfileChart from "../UserProfileChart";
+import { toast } from "sonner";
 const formSchema = z.object({
     name: z.string({ required_error: "Name is required." }),
     description: z.string({ required_error: "Description is required." }),
@@ -54,10 +55,11 @@ const RightSide = () => {
     const {reset} = form
     
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
-
+        const loading = toast.loading("Creating...")
         console.log(data);
 
         reset()
+        toast.success('Added task', {id: loading})
         setOpen(!open)
     }
     return (

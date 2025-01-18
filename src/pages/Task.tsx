@@ -24,11 +24,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select"
-import {
-    zodResolver
-} from "@hookform/resolvers/zod"
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
-import * as z from "zod"
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
 import { Calendar } from "@/components/ui/calendar"
@@ -40,6 +36,7 @@ import {
 import { CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
 import { useState } from "react";
+import { toast } from "sonner";
 
 const Task = () => {
     const date = new Date()
@@ -53,13 +50,14 @@ const Task = () => {
                 isCompleted: true}
             }
         )
-        console.log(form);
         
         
         const onSubmit: SubmitHandler<FieldValues> = (data) => {
+            const loading = toast.loading("updating...")
     
             console.log(data);
     
+            toast.success('update task', {id: loading})
             setOpen(!open)
         }
     return (
