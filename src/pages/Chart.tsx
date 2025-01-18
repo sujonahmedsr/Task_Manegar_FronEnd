@@ -37,13 +37,12 @@ export function Chart() {
         <CardTitle>Comleted vs Pending Tasks
         </CardTitle>
         <CardDescription>Task completion status.
-
         </CardDescription>
       </CardHeader>
       <CardContent className="flex items-center">
         <ChartContainer
           config={chartConfig}
-          className="mx-auto aspect-square w-3/4"
+          className="mx-auto aspect-square w-full"
         >
           <RadialBarChart
             data={chartData}

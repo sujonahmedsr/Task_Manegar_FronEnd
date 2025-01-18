@@ -28,11 +28,11 @@ const MainLayouts = () => {
                     <div>
                         <Button>Add Task</Button>
                     </div>
-                    <div className="flex items-center gap-5 px-7 py-5 hover:bg-gray-200 duration-300">
-                        <img className="w-20 h-20 rounded-full" src={dummyImg} alt="dummyImg" />
+                    <div className="flex items-center gap-4 p-5 hover:bg-gray-200 duration-300 w-full">
+                        <img className="w-16 h-16 rounded-full" src={dummyImg} alt="dummyImg" />
                         <div>
-                            <h1 className="text-xl font-semibold">Hello,</h1>
-                            <h1 className="text-2xl font-bold">Sujon Ahmed</h1>
+                            <h1 className="text-lg font-semibold">Hello,</h1>
+                            <h1 className="text-xl font-bold">Sujon Ahmed</h1>
                         </div>
                     </div>
                     <div className="grid grid-cols-2 gap-4 w-full">
