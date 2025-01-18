@@ -30,7 +30,7 @@ const Login = () => {
     }
 
     return (
-        <div className="p-4 h-[60vh] grid place-items-center">
+        <div className="p-4 h-[100vh] grid place-items-center">
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 max-w-md mx-auto p-10 border w-full">
                     <FormField

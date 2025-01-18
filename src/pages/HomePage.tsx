@@ -5,8 +5,7 @@ import { Input } from "@/components/ui/input";
 const HomePage = () => {
     return (
         <div className="flex flex-col">
-            <div className="flex items-center justify-between bg-white px-5 py-3 sticky top-0">
-                <h1>All Task</h1>
+            <div className="flex items-center justify-between bg-white p-5 sticky top-0">
                 <Input placeholder="Search..." className="w-1/2" />
                 <div>
                     <Tabs defaultValue="account">
