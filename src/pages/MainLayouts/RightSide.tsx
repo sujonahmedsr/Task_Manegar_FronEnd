@@ -55,7 +55,7 @@ const RightSide = () => {
     const {reset} = form
     
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
-        const loading = toast.loading("Creating...")
+        const loading = toast.loading("Creating....")
         console.log(data);
 
         reset()
