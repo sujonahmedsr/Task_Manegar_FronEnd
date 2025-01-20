@@ -10,11 +10,13 @@ import {
     zodResolver
 } from "@hookform/resolvers/zod"
 import { Input } from "@/components/ui/input";
-import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+import { FieldValues, useForm } from "react-hook-form";
 import * as z from "zod"
 import { PasswordInput } from "@/components/ui/password-input";
 import { Link } from "react-router-dom";
 import { CgGoogleTasks } from "react-icons/cg";
+import { useLoginMutation } from "@/Redux/Features/Auth/AuthApi";
+import { toast } from "sonner";
 
 const formSchema = z.object({
     email: z.string({ required_error: "Email is required." }),
@@ -22,13 +24,32 @@ const formSchema = z.object({
 });
 
 const Login = () => {
+    const [loginUser] = useLoginMutation()
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
     })
-    const onSubmit: SubmitHandler<FieldValues> = (data) => {
-        console.log('hello ok');
+    const onSubmit = async (data: FieldValues) => {
+        const toastId = toast.loading("Login...")
+        
+        try {
+            const res = await loginUser({
+                email: data?.email,
+                password: data?.password
+            });
+            console.log(res);
 
-        console.log(data);
+            if (res?.error) {
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                toast.error((res?.error as any)?.data?.message
+                    , { id: toastId })
+            } else {
+                toast.success("Login Succesfull", { id: toastId })
+            }
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        } catch (error) {
+            toast.error("Something Went Wrong.!", { id: toastId })
+        }
+
     }
 
     return (
@@ -53,7 +74,7 @@ const Login = () => {
                             <FormItem>
                                 <FormLabel>Email</FormLabel>
                                 <FormControl>
-                                    <Input placeholder="Email" {...field} value={field.value || ''}/>
+                                    <Input placeholder="Email" {...field} value={field.value || ''} />
                                 </FormControl>
                                 {
                                     error && <p className="text-red-500">{error.message}</p>
@@ -68,7 +89,7 @@ const Login = () => {
                             <FormItem>
                                 <FormLabel>Password</FormLabel>
                                 <FormControl>
-                                    <PasswordInput placeholder="Passowrd" {...field} value={field.value || ''}/>
+                                    <PasswordInput placeholder="Passowrd" {...field} value={field.value || ''} />
                                 </FormControl>
                                 {
                                     error && <p className="text-red-500">{error.message}</p>

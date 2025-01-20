@@ -15,6 +15,7 @@ import * as z from "zod"
 import { PasswordInput } from "@/components/ui/password-input";
 import { Link } from "react-router-dom";
 import { CgGoogleTasks } from "react-icons/cg";
+import { useRegistrationMutation } from "@/Redux/Features/Auth/AuthApi";
 
 const formSchema = z.object({
     name: z.string({ required_error: "Name is required." }),
@@ -23,23 +24,35 @@ const formSchema = z.object({
 });
 
 const SignUp = () => {
+    const [registration] = useRegistrationMutation()
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
     })
-    const onSubmit: SubmitHandler<FieldValues> = (data) => {
-        console.log('hello ok');
-
+    const onSubmit: SubmitHandler<FieldValues> = async (data) => {
         console.log(data);
+
+        const registerData = {
+            name: data?.name,
+            email: data?.email,
+            password: data?.password,
+        }
+
+        const formData = new FormData()
+        formData.append("data", JSON.stringify(registerData))
+        formData.append('file', data.image);
+
+        const res = await registration(formData);
+        console.log(res);
     }
 
     return (
         <div className="p-4 h-[100vh] grid place-items-center">
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5 max-w-md mx-auto p-10 border w-full">
-                <div className="text-center space-y-3">
-                    <Link to={'/'} className="flex items-center flex-col font-bold text-lg"><CgGoogleTasks className="text-3xl text-red-500" /><p>Dot<span className="text-red-500">Task</span></p></Link>
-                    <p>Already Have Account? <Link to={'/login'} className="text-red-500 font-semibold hover:underline">Login</Link></p>
-                </div>
+                    <div className="text-center space-y-3">
+                        <Link to={'/'} className="flex items-center flex-col font-bold text-lg"><CgGoogleTasks className="text-3xl text-red-500" /><p>Dot<span className="text-red-500">Task</span></p></Link>
+                        <p>Already Have Account? <Link to={'/login'} className="text-red-500 font-semibold hover:underline">Login</Link></p>
+                    </div>
                     <FormField
                         control={form.control}
                         name="name"
@@ -47,7 +60,7 @@ const SignUp = () => {
                             <FormItem>
                                 <FormLabel>Name</FormLabel>
                                 <FormControl>
-                                    <Input placeholder="Name" {...field} value={field.value || ''}/>
+                                    <Input placeholder="Name" {...field} value={field.value || ''} />
                                 </FormControl>
                                 {
                                     error && <p className="text-red-500">{error.message}</p>
@@ -69,7 +82,7 @@ const SignUp = () => {
                             <FormItem>
                                 <FormLabel>Email</FormLabel>
                                 <FormControl>
-                                    <Input placeholder="Email" {...field} value={field.value || ''}/>
+                                    <Input placeholder="Email" {...field} value={field.value || ''} />
                                 </FormControl>
                                 {
                                     error && <p className="text-red-500">{error.message}</p>
@@ -84,7 +97,7 @@ const SignUp = () => {
                             <FormItem>
                                 <FormLabel>Password</FormLabel>
                                 <FormControl>
-                                    <PasswordInput placeholder="Passowrd" {...field} value={field.value || ''}/>
+                                    <PasswordInput placeholder="Passowrd" {...field} value={field.value || ''} />
                                 </FormControl>
                                 {
                                     error && <p className="text-red-500">{error.message}</p>
