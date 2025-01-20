@@ -6,6 +6,7 @@ import { SiGoogletasks } from "react-icons/si";
 import { MdOutlinePending } from "react-icons/md";
 
 const LeftSide = () => {
+    const user = false
     return (
         <div>
             <div className="col-span-1  sticky top-0 left-0 h-[100vh] flex flex-col items-center justify-between px-5 py-3">
@@ -17,7 +18,10 @@ const LeftSide = () => {
                         <button title="Pending Task" className="hover:text-red-500 duration-300"><MdOutlinePending /></button>
                     </div>
                 </div>
-                <Button>Log Out</Button>
+                {
+                    user ? <Button>Log Out</Button> : <Link to={'/login'}><Button>Log In</Button></Link>
+                }
+                
             </div>
         </div>
     );

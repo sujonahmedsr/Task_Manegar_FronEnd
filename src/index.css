@@ -71,3 +71,25 @@
     @apply bg-background text-foreground;
   }
 }
+
+
+.custom-shape-divider-bottom-1737385021 {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
+}
+
+.custom-shape-divider-bottom-1737385021 svg {
+  position: relative;
+  display: block;
+  width: calc(300% + 1.3px);
+  height: 500px;
+  transform: rotateY(180deg);
+}
+
+.custom-shape-divider-bottom-1737385021 .shape-fill {
+  fill: #FC1313;
+}
