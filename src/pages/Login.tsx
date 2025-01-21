@@ -17,6 +17,9 @@ import { Link } from "react-router-dom";
 import { CgGoogleTasks } from "react-icons/cg";
 import { useLoginMutation } from "@/Redux/Features/Auth/AuthApi";
 import { toast } from "sonner";
+import { jwtDecode } from "jwt-decode";
+import { setUser } from "@/Redux/Features/Auth/AuthSlice";
+import { useAppDispatch } from "@/Redux/hooks";
 
 const formSchema = z.object({
     email: z.string({ required_error: "Email is required." }),
@@ -24,6 +27,7 @@ const formSchema = z.object({
 });
 
 const Login = () => {
+    const dispatch = useAppDispatch()
     const [loginUser] = useLoginMutation()
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -43,13 +47,14 @@ const Login = () => {
                 toast.error((res?.error as any)?.data?.message
                     , { id: toastId })
             } else {
+                const user = jwtDecode(res?.data?.data?.token);
+                dispatch(setUser({user, token: res?.data?.data?.token}))
                 toast.success("Login Succesfull", { id: toastId })
             }
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
         } catch (error) {
             toast.error("Something Went Wrong.!", { id: toastId })
         }
-
     }
 
     return (

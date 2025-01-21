@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Button } from "@/components/ui/button";
 import {
     Form,
@@ -16,6 +18,7 @@ import { PasswordInput } from "@/components/ui/password-input";
 import { Link } from "react-router-dom";
 import { CgGoogleTasks } from "react-icons/cg";
 import { useRegistrationMutation } from "@/Redux/Features/Auth/AuthApi";
+import { toast } from "sonner";
 
 const formSchema = z.object({
     name: z.string({ required_error: "Name is required." }),
@@ -29,7 +32,7 @@ const SignUp = () => {
         resolver: zodResolver(formSchema),
     })
     const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-        console.log(data);
+        const toastId = toast.loading("Registration Ongoin...")
 
         const registerData = {
             name: data?.name,
@@ -41,8 +44,17 @@ const SignUp = () => {
         formData.append("data", JSON.stringify(registerData))
         formData.append('file', data.image);
 
-        const res = await registration(formData);
-        console.log(res);
+        try {
+            const res = await registration(formData);
+            if(res?.error){
+                toast.error((res?.error as any)?.data?.message, {id: toastId})
+            }else{
+                toast.success("Registration Ok...", {id: toastId}) 
+            }
+        } catch (error) {
+            toast.error("Something Went Wrong...", {id: toastId})
+        }
+
     }
 
     return (
