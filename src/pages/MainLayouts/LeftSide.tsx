@@ -4,17 +4,21 @@ import { CgGoogleTasks } from "react-icons/cg";
 import { FaTasks } from "react-icons/fa";
 import { SiGoogletasks } from "react-icons/si";
 import { MdOutlinePending } from "react-icons/md";
-import { useAppDispatch, useAppSelector } from "@/Redux/hooks";
-import { logout, useCurrentUser } from "@/Redux/Features/Auth/AuthSlice";
 import { toast } from "sonner";
+import { useLogoutMutation } from "@/Redux/Features/Auth/AuthApi";
+import { logout, useCurrentUser } from "@/Redux/Features/Auth/AuthSlice";
+import { useAppDispatch, useAppSelector } from "@/Redux/hooks";
 
 const LeftSide = () => {
+    const [logoutDb] = useLogoutMutation()
     const user = useAppSelector(useCurrentUser)
     const dispatch = useAppDispatch()
-    const handleLogOut = () => {
+    const handleLogOut = async () => {
         const toastId = toast.loading("Loading...")
         dispatch(logout())
+        await logoutDb(undefined)
         toast.success("Log Out...", { id: toastId })
+        window.location.reload()
     }
     return (
         <div className="col-span-1 sticky top-0 left-0 flex flex-col items-center justify-between px-5 py-3 h-[90vh]">

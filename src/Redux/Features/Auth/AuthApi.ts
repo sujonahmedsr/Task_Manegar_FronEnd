@@ -20,13 +20,14 @@ const authApi = baseApi.injectEndpoints({
                 url: '/auth/user-login',
                 method: "POST",
                 body: info
-            })
+            }),
         }),
         logout: builder.mutation({
             query: () => ({
                 url: '/auth/user-logout',
                 method: "POST",
-            })
+            }),
+            invalidatesTags: ['task']
         })
     })
 })
