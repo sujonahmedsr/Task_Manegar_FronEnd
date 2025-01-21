@@ -39,31 +39,54 @@ import { format } from "date-fns";
 import { useState } from "react";
 import UserProfileChart from "../UserProfileChart";
 import { toast } from "sonner";
+import { useAddTaskMutation } from "@/Redux/Features/Task/taskApi";
+import { useAppSelector } from "@/Redux/hooks";
+import { useCurrentUser } from "@/Redux/Features/Auth/AuthSlice";
 const formSchema = z.object({
-    name: z.string({ required_error: "Name is required." }),
+    title: z.string({ required_error: "Title is required." }),
     description: z.string({ required_error: "Description is required." }),
-    priority: z.string({ required_error: "Priority is required." }),
-    dueDate: z.date({ required_error: "Due Date is required." }),
-    isCompleted: z.boolean().optional(),
+    // priority: z.string({ required_error: "Priority is required." }),
+    // dueDate: z.date({ required_error: "Due Date is required." }),
+    // isCompleted: z.boolean().optional(),
 });
 const RightSide = () => {
+    const user = useAppSelector(useCurrentUser)
+    const [addTask] = useAddTaskMutation()
     const date = new Date()
     const [open, setOpen] = useState(false)
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
     })
-    const {reset} = form
-    
-    const onSubmit: SubmitHandler<FieldValues> = (data) => {
-        const loading = toast.loading("Creating....")
-        console.log(data);
+    const { reset } = form
 
-        reset()
-        toast.success('Added task', {id: loading})
-        setOpen(!open)
+    const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+        const loading = toast.loading("Creating....")
+
+        const taskData = {
+            ...data,
+            user: user?.email
+        }
+
+        try {
+            const res = await addTask(taskData)
+            console.log(res);
+            
+            if (res?.error) {
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                toast.error((res?.error as any)?.data?.message
+                    , { id: loading })
+            } else {
+                reset()
+                toast.success('Added task', { id: loading })
+                setOpen(!open)
+            }
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        } catch (error) {
+            toast.error("Something Went Wrong.!", { id: loading })
+        }
     }
     return (
-        <div className="col-span-3  sticky top-0 left-0 h-[100vh] flex flex-col p-5 items-center gap-4">
+        <div className="col-span-3  sticky top-0 left-0 flex flex-col p-5 items-center gap-4 h-[90vh]">
             <Dialog open={open} onOpenChange={setOpen}>
                 <DialogTrigger asChild>
                     <Button onClick={() => setOpen(!open)}>Add Task</Button>
@@ -74,12 +97,12 @@ const RightSide = () => {
                         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2 max-w-md mx-auto w-full">
                             <FormField
                                 control={form.control}
-                                name="name"
+                                name="title"
                                 render={({ field, fieldState: { error } }) => (
                                     <FormItem>
-                                        <FormLabel>Name</FormLabel>
+                                        <FormLabel>Title</FormLabel>
                                         <FormControl>
-                                            <Input placeholder="Name" {...field} value={field.value || ''} />
+                                            <Input placeholder="Title" {...field} value={field.value || ''} />
                                         </FormControl>
                                         {
                                             error && <p className="text-red-500">{error.message}</p>
@@ -108,7 +131,7 @@ const RightSide = () => {
                                 )}
                             />
 
-                            <FormField
+                            {/* <FormField
                                 control={form.control}
                                 name="priority"
                                 render={({ field, fieldState: { error } }) => (
@@ -120,7 +143,7 @@ const RightSide = () => {
                                                 onValueChange={field.onChange} // Update form state
                                             >
                                                 <SelectTrigger className="w-full">
-                                                    <SelectValue placeholder="Select a fruit" />
+                                                    <SelectValue placeholder="Select a Priority" />
                                                 </SelectTrigger>
                                                 <SelectContent>
                                                     <SelectGroup>
@@ -136,9 +159,9 @@ const RightSide = () => {
                                         }
                                     </FormItem>
                                 )}
-                            />
+                            /> */}
 
-                            <FormField
+                            {/* <FormField
                                 control={form.control}
                                 name="isCompleted"
                                 render={({ field, fieldState: { error } }) => (
@@ -165,9 +188,9 @@ const RightSide = () => {
                                         }
                                     </FormItem>
                                 )}
-                            />
+                            /> */}
 
-                            <FormField
+                            {/* <FormField
                                 control={form.control}
                                 name="dueDate"
                                 render={({ field, fieldState: { error } }) => (
@@ -204,7 +227,7 @@ const RightSide = () => {
                                         }
                                     </FormItem>
                                 )}
-                            />
+                            /> */}
 
                             <Button type="submit" className="w-full">Create Task</Button>
                         </form>
@@ -215,7 +238,7 @@ const RightSide = () => {
 
             {/* user profile and charts here  */}
             <UserProfileChart />
-            
+
         </div>
     );
 };

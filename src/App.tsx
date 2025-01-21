@@ -1,10 +1,14 @@
 import MainLayouts from "./pages/MainLayouts/MainLayouts"
+import ProtectedRoute from "./pages/MainLayouts/ProtectedRoute"
 
 function App() {
 
   return (
     <>
-      <MainLayouts />
+      <ProtectedRoute>
+        <MainLayouts />
+      </ProtectedRoute>
+
     </>
   )
 }

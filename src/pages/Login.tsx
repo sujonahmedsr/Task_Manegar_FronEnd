@@ -13,7 +13,7 @@ import { Input } from "@/components/ui/input";
 import { FieldValues, useForm } from "react-hook-form";
 import * as z from "zod"
 import { PasswordInput } from "@/components/ui/password-input";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { CgGoogleTasks } from "react-icons/cg";
 import { useLoginMutation } from "@/Redux/Features/Auth/AuthApi";
 import { toast } from "sonner";
@@ -28,6 +28,7 @@ const formSchema = z.object({
 
 const Login = () => {
     const dispatch = useAppDispatch()
+    const navigate = useNavigate()
     const [loginUser] = useLoginMutation()
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -40,7 +41,6 @@ const Login = () => {
                 email: data?.email,
                 password: data?.password
             });
-            console.log(res);
 
             if (res?.error) {
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -49,6 +49,7 @@ const Login = () => {
             } else {
                 const user = jwtDecode(res?.data?.data?.token);
                 dispatch(setUser({user, token: res?.data?.data?.token}))
+                navigate('/')
                 toast.success("Login Succesfull", { id: toastId })
             }
             // eslint-disable-next-line @typescript-eslint/no-unused-vars

@@ -1,6 +1,7 @@
 import App from "@/App";
 import HomePage from "@/pages/HomePage";
 import Login from "@/pages/Login";
+import SingInSignupProtectRoute from "@/pages/MainLayouts/SingInSignupProtectRoute";
 import SignUp from "@/pages/SignUp";
 import { createBrowserRouter } from "react-router-dom";
 
@@ -17,11 +18,15 @@ const router = createBrowserRouter([
     },
     {
         path: "/login",
-        element: <Login />
+        element: <SingInSignupProtectRoute>
+            <Login />
+        </SingInSignupProtectRoute>
     },
     {
         path: "/signup",
-        element: <SignUp />
+        element: <SingInSignupProtectRoute>
+            <SignUp />
+        </SingInSignupProtectRoute>
     },
 ])
 
