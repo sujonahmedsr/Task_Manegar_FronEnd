@@ -52,7 +52,6 @@ const formSchema = z.object({
 const RightSide = () => {
     const user = useAppSelector(useCurrentUser)
     const [addTask] = useAddTaskMutation()
-    const date = new Date()
     const [open, setOpen] = useState(false)
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -70,7 +69,7 @@ const RightSide = () => {
         try {
             const res = await addTask(taskData)
             console.log(res);
-            
+
             if (res?.error) {
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 toast.error((res?.error as any)?.data?.message
