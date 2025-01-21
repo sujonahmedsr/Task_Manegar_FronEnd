@@ -73,10 +73,12 @@ const Task = ({ task }: { task: Ttask }) => {
         setOpen(!open)
     }
     return (
-        <div className="bg-gray-200 border p-4 flex flex-col justify-between rounded-lg w-72 h-48">
+        <div className="bg-gray-200 border p-4 flex flex-col justify-between rounded-lg h-52 gap-5">
             <div className="space-y-1">
                 <h1 className="text-xl font-semibold">{title}</h1>
-                <p className="text-base text-gray-600">{description}</p>
+                <div className="overflow-y-auto h-20">
+                    <p className="text-base text-gray-600">{description}</p>
+                </div>
             </div>
             <div className="flex items-center justify-between mt-4">
                 <div className="flex items-center gap-5">

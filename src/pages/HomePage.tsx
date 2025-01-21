@@ -16,7 +16,6 @@ export type Ttask = {
 
 const HomePage = () => {
     const { data: allTasks, isLoading, isError } = useAllTaskQuery(undefined)
-    console.log(allTasks?.data);
 
     let content;
 
@@ -31,6 +30,7 @@ const HomePage = () => {
         content = <div className="text-red-500">Somethin went wrong...</div>
     }
     if (allTasks?.data?.length > 0) {
+        
         content = <div className="p-4 grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-4  rounded-s-2xl rounded-e-2xl">
             {
                 allTasks?.data?.map((task: Ttask, item: any) => <Task key={item} task={task} />)
