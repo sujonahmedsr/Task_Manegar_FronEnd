@@ -13,6 +13,16 @@ const UserProfileChart = () => {
     const userInfo = useAppSelector(useCurrentUser)
     const dispatch = useAppDispatch()
 
+    const handleLogOut = async () => {
+        const toastId = toast.loading("Loading...")
+        dispatch(logout())
+        await logoutDb(undefined)
+        console.log('okay');
+
+        toast.success("Log Out...", { id: toastId })
+        // window.location.reload()
+    }
+
     const { data: userData, isLoading, isError } = useUserQuery(userInfo?.userId)
 
     let content;
@@ -31,19 +41,18 @@ const UserProfileChart = () => {
         </div>
     }
 
-    const handleLogOut = async () => {
-        const toastId = toast.loading("Loading...")
-        dispatch(logout())
-        await logoutDb(undefined)
-        toast.success("Log Out...", { id: toastId })
-        window.location.reload()
-    }
-
 
     return (
-        <div className="space-y-5 w-full">
+        <div className="space-y-10 w-full">
             {/* user profile  */}
-            {content}
+            <div>
+                {content}
+
+                {
+                user ? <Button className="w-full" onClick={handleLogOut}>Log Out</Button> : <Link className="w-full" to={'/login'}><Button>Log In</Button></Link>
+            }
+
+            </div>
 
             {/* task progress  */}
             <div className="grid grid-cols-2 gap-4 w-full">
@@ -79,15 +88,9 @@ const UserProfileChart = () => {
 
             {/* show task in chart  */}
             <div className="space-y-1 w-full">
-                <p className="text-lg font-semibold">Activity</p>
                 <Chart />
             </div>
 
-            <div>
-                {
-                    user ? <Button className="w-full" onClick={handleLogOut}>Log Out</Button> : <Link className="w-full" to={'/login'}><Button>Log In</Button></Link>
-                }
-            </div>
         </div>
     );
 };

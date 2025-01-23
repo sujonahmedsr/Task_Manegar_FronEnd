@@ -32,7 +32,7 @@ export function Chart() {
   const totalVisitors = chartData[0].desktop + chartData[0].mobile
 
   return (
-    <Card className="flex flex-col h-72">
+    <Card className="flex flex-col h-72 overflow-hidden">
       <CardHeader className="items-center">
         <CardTitle>Comleted vs Pending Tasks
         </CardTitle>

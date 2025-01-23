@@ -3,6 +3,7 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import Task from "./Task";
 import { Input } from "@/components/ui/input";
 import { useAllTaskQuery } from "@/Redux/Features/Task/taskApi";
+import AddTask from "./AddTask";
 
 export type Ttask = {
     title: string,
@@ -26,16 +27,13 @@ const HomePage = () => {
             <div className="bg-gray-100 border p-4 flex flex-col justify-between rounded-lg w-72 h-48"></div>
         </div>
     }
-    if(isError){
+    if (isError) {
         content = <div className="text-red-500">Somethin went wrong...</div>
     }
     if (allTasks?.data?.length > 0) {
-        
-        content = <div className="p-4 grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-4  rounded-s-2xl rounded-e-2xl">
-            {
-                allTasks?.data?.map((task: Ttask, item: any) => <Task key={item} task={task} />)
-            }
-        </div>
+
+        content = allTasks?.data?.map((task: Ttask, item: any) => <Task key={item} task={task} />)
+
     }
 
     return (
@@ -53,7 +51,11 @@ const HomePage = () => {
                     </Tabs>
                 </div>
             </div>
-            {content}
+
+            <div className="p-4 grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-4  rounded-s-2xl rounded-e-2xl">
+                {content}
+                <AddTask />
+            </div>
         </div>
     );
 };
