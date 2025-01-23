@@ -2,7 +2,8 @@
 import { useAllTaskQuery } from '@/Redux/Features/Task/taskApi';
 
 const Calculation = () => {
-    const { data: allTasks, isLoading, isError } = useAllTaskQuery(undefined)
+    const { data: allTasks } = useAllTaskQuery(undefined)
+
 
     const totalTask = allTasks?.data?.length
 

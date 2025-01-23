@@ -26,32 +26,27 @@ const UserProfileChart = () => {
 
     const { data: userData, isLoading, isError } = useUserQuery(userInfo?.userId)
 
-    let content;
     if (isLoading) {
-        content = <div><p>Loading...</p></div>
+        <div><p>Loading...</p></div>
     } else if (isError) {
-        content = <div><p>Something Went Wrong</p></div>
-    } else {
-        content = <div className="flex items-center gap-4 p-5 hover:bg-gray-200 duration-300 w-full">
-            <img className="w-16 h-16 rounded-full" src={dummyImg} alt="dummyImg" />
-            <div>
-                <h1 className="text-lg font-semibold">Hello,</h1>
-                <h1 className="text-xl font-bold">{userData?.data?.name}</h1>
-                <h1 className="text-sm">{userData?.data?.email}</h1>
-            </div>
-        </div>
+        <div><p>Something Went Wrong</p></div>
     }
-
 
     return (
         <div className="space-y-10 w-full">
             {/* user profile  */}
             <div>
-                {content}
+                <div className="flex items-center gap-4 p-5 hover:bg-gray-200 duration-300 w-full">
+                    <img className="w-16 h-16 rounded-full" src={dummyImg} alt="dummyImg" />
+                    <div>
+                        <h1 className="text-base font-semibold">Hello,</h1>
+                        <h1 className="text-xl font-bold">{userData?.data?.name}</h1>
+                    </div>
+                </div>
 
                 {
-                user ? <Button className="w-full" onClick={handleLogOut}>Log Out</Button> : <Link className="w-full" to={'/login'}><Button>Log In</Button></Link>
-            }
+                    user ? <Button className="w-full" onClick={handleLogOut}>Log Out</Button> : <Link className="w-full" to={'/login'}><Button>Log In</Button></Link>
+                }
 
             </div>
 

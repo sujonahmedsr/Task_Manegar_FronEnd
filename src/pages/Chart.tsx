@@ -15,21 +15,23 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart"
-const chartData = [{ month: "january", desktop: 1260, mobile: 570 }]
+import Calculation from "@/utils/Calculation"
+
+
+export function Chart() {
+  const {totalTask, completeTask, inCompleteTask} = Calculation()
+  const chartData = [{completeTask: completeTask,  InProgress: inCompleteTask}]
 
 const chartConfig = {
-  desktop: {
-    label: "Desktop",
+  completeTask: {
+    label: "completeTask",
     color: "hsl(var(--chart-1))",
   },
-  mobile: {
-    label: "Mobile",
+  InProgress: {
+    label: "InProgress",
     color: "hsl(var(--chart-2))",
   },
 } satisfies ChartConfig
-
-export function Chart() {
-  const totalVisitors = chartData[0].desktop + chartData[0].mobile
 
   return (
     <Card className="flex flex-col h-72 overflow-hidden">
@@ -65,7 +67,7 @@ export function Chart() {
                           y={(viewBox.cy || 0) - 16}
                           className="fill-foreground text-2xl font-bold"
                         >
-                          {totalVisitors.toLocaleString()}
+                          {totalTask}
                         </tspan>
                         <tspan
                           x={viewBox.cx}
@@ -81,15 +83,15 @@ export function Chart() {
               />
             </PolarRadiusAxis>
             <RadialBar
-              dataKey="desktop"
+              dataKey="completeTask"
               stackId="a"
               cornerRadius={5}
-              fill="var(--color-desktop)"
+              fill="var(--color-completeTask)"
               className="stroke-transparent stroke-2"
             />
             <RadialBar
-              dataKey="mobile"
-              fill="var(--color-mobile)"
+              dataKey="InProgress"
+              fill="var(--color-InProgress)"
               stackId="a"
               cornerRadius={5}
               className="stroke-transparent stroke-2"
