@@ -88,8 +88,8 @@ const AddTask = () => {
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
-                <div className="hover:bg-gray-200 duration-300 transition-all p-4 flex flex-col justify-center rounded-lg h-52 gap-5 border-dotted border-2 cursor-pointer">
-                    <Button variant={"outline"} onClick={() => setOpen(!open)}>Add Task</Button>
+                <div onClick={() => setOpen(!open)} className="hover:bg-gray-200 duration-300 transition-all p-4 flex flex-col justify-center rounded-lg h-52 gap-5 border-dotted border-2 border-red-500 cursor-pointer">
+                    <h1 className="text-xl font-semibold text-gray-700 text-center">Add Task</h1>
                 </div>
             </DialogTrigger>
             <DialogContent aria-describedby={undefined} className="sm:max-w-[425px]">

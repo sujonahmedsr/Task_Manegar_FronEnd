@@ -6,7 +6,7 @@ import { MdOutlinePending } from "react-icons/md";
 
 const LeftSide = () => {
     return (
-        <div className="col-span-1 sticky top-0 left-0 flex flex-col items-center justify-between px-5 py-3 h-[90vh]">
+        <div className="col-span-1 sticky top-0 left-0 flex flex-col items-center justify-between px-5 py-3 h-[100vh] border-r">
             <div className="space-y-5 flex flex-col items-center">
                 <Link to={'/'} className="flex items-center flex-col font-bold text-lg"><CgGoogleTasks className="text-3xl text-red-500" /><p>Do<span className="text-red-500">Task</span></p></Link>
                 <div className="flex items-center flex-col gap-6 text-2xl transition-all text-gray-500">

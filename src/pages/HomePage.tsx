@@ -21,10 +21,8 @@ const HomePage = () => {
     let content;
 
     if (isLoading) {
-        content = <div className="p-4 flex items-center justify-between gap-5">
-            <div className="bg-gray-100 border p-4 flex flex-col justify-between rounded-lg w-72 h-48"></div>
-            <div className="bg-gray-100 border p-4 flex flex-col justify-between rounded-lg w-72 h-48"></div>
-            <div className="bg-gray-100 border p-4 flex flex-col justify-between rounded-lg w-72 h-48"></div>
+        content = <div className="flex items-center justify-between gap-5">
+            <div className="bg-gray-200 p-4 flex flex-col justify-center rounded-lg h-52 gap-5 w-full cursor-pointer"></div>
         </div>
     }
     if (isError) {
@@ -33,12 +31,11 @@ const HomePage = () => {
     if (allTasks?.data?.length > 0) {
 
         content = allTasks?.data?.map((task: Ttask, item: any) => <Task key={item} task={task} />)
-
     }
 
     return (
-        <div className="flex flex-col border">
-            <div className="flex items-center justify-between bg-white p-5 sticky top-0">
+        <div className="flex flex-col">
+            <div className="flex items-center justify-between bg-white p-5 sticky top-0 border-b">
                 <Input placeholder="Search..." className="w-1/2" />
                 <div>
                     <Tabs defaultValue="account">
