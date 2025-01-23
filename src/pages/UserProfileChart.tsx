@@ -85,7 +85,7 @@ const UserProfileChart = () => {
 
             <div>
                 {
-                    user ? <Button onClick={handleLogOut}>Log Out</Button> : <Link to={'/login'}><Button>Log In</Button></Link>
+                    user ? <Button className="w-full" onClick={handleLogOut}>Log Out</Button> : <Link className="w-full" to={'/login'}><Button>Log In</Button></Link>
                 }
             </div>
         </div>
