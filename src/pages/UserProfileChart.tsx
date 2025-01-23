@@ -1,14 +1,19 @@
 import { Chart } from "./Chart";
 import dummyImg from "../assets/dummy.png"
-import { useUserQuery } from "@/Redux/Features/Auth/AuthApi";
-import { useAppSelector } from "@/Redux/hooks";
-import { useCurrentUser } from "@/Redux/Features/Auth/AuthSlice";
+import { useLogoutMutation, useUserQuery } from "@/Redux/Features/Auth/AuthApi";
+import { useAppDispatch, useAppSelector } from "@/Redux/hooks";
+import { logout, useCurrentUser } from "@/Redux/Features/Auth/AuthSlice";
 import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
+import { Link } from "react-router-dom";
 
 const UserProfileChart = () => {
     const user = useAppSelector(useCurrentUser)
+    const [logoutDb] = useLogoutMutation()
+    const userInfo = useAppSelector(useCurrentUser)
+    const dispatch = useAppDispatch()
 
-    const { data: userData, isLoading, isError } = useUserQuery(user?.userId)
+    const { data: userData, isLoading, isError } = useUserQuery(userInfo?.userId)
 
     let content;
     if (isLoading) {
@@ -24,6 +29,14 @@ const UserProfileChart = () => {
                 <h1 className="text-sm">{userData?.data?.email}</h1>
             </div>
         </div>
+    }
+
+    const handleLogOut = async () => {
+        const toastId = toast.loading("Loading...")
+        dispatch(logout())
+        await logoutDb(undefined)
+        toast.success("Log Out...", { id: toastId })
+        window.location.reload()
     }
 
 
