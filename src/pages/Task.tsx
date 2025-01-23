@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { FaStar } from "react-icons/fa";
 import { FaEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
@@ -38,9 +40,13 @@ import { format } from "date-fns";
 import { useState } from "react";
 import { toast } from "sonner";
 import { Ttask } from "./HomePage";
+import { useDeleteTaskMutation, useUpdateTaskMutation } from "@/Redux/Features/Task/taskApi";
 
 const Task = ({ task }: { task: Ttask }) => {
-    const { title, description, dueDate, isCompleted
+    const [deleteTask] = useDeleteTaskMutation()
+    const [updateTask] = useUpdateTaskMutation()
+
+    const { _id, title, description, dueDate, isCompleted
         , priority, createdAt } = task
 
     const time = new Date().getTime() - new Date(createdAt).getTime();
@@ -61,16 +67,43 @@ const Task = ({ task }: { task: Ttask }) => {
         }
     )
 
+    const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+        const taostId = toast.loading("updating...")
 
+        const updateData = {
+            ...data
+        }
 
+        try {
+            const res = await updateTask({_id, updateData})
+            
+            if (res?.error) {
+                toast.error('Something Went Wrong. Please Try Again', { id: taostId })
+            } else {
+                toast.success('update task', { id: taostId })
+                setOpen(!open)
+            }
 
-    const onSubmit: SubmitHandler<FieldValues> = (data) => {
-        const loading = toast.loading("updating...")
+        } catch (error) {
+            toast.error("Something Went Wrong! Please Try Again", { id: taostId })
+        }
+    }
 
-        console.log(data);
+    const handleDelete = async (id: string) => {
+        const taostId = toast.loading('Loading....')
 
-        toast.success('update task', { id: loading })
-        setOpen(!open)
+        try {
+            const res = await deleteTask(id)
+
+            if (res?.error) {
+                toast.error('Something Went Wrong. Please Try Again', { id: taostId })
+            } else {
+                toast.success('Delete task', { id: taostId })
+            }
+
+        } catch (error) {
+            toast.error("Something Went Wrong! Please Try Again", { id: taostId })
+        }
     }
     return (
         <div className="bg-gray-200 border p-4 flex flex-col justify-between rounded-lg h-52 gap-5">
@@ -87,7 +120,7 @@ const Task = ({ task }: { task: Ttask }) => {
                 </div>
                 <div className="space-x-3 text-xl">
                     <button>
-                        <FaStar className={`${isCompleted ? "text-yellow-600" : " text-gray-600"}`} />
+                        <FaStar className={`${isCompleted ? "text-yellow-500" : " text-gray-600"}`} />
                     </button>
                     <button>
 
@@ -239,7 +272,7 @@ const Task = ({ task }: { task: Ttask }) => {
                             </DialogContent>
                         </Dialog>
                     </button>
-                    <button>
+                    <button onClick={() => handleDelete(_id)}>
                         <MdDelete className="text-red-600" />
                     </button>
                 </div>

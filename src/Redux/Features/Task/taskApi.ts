@@ -17,10 +17,30 @@ const authApi = baseApi.injectEndpoints({
             }),
             invalidatesTags: ['task']
         }),
+        updateTask: builder.mutation({
+            query: ({ _id, updateData }) => (
+                console.log(_id, updateData),
+                
+                {
+                url: `/user/tasks/${_id}`,
+                method: "PATCH",
+                body: updateData
+            }),
+            invalidatesTags: ['task']
+        }),
+        deleteTask: builder.mutation({
+            query: (id) => ({
+                url: `/user/tasks/${id}`,
+                method: "DELETE",
+            }),
+            invalidatesTags: ['task']
+        })
     })
 })
 
-export const { 
+export const {
     useAllTaskQuery,
-    useAddTaskMutation
-     } = authApi
+    useAddTaskMutation,
+    useDeleteTaskMutation,
+    useUpdateTaskMutation
+} = authApi

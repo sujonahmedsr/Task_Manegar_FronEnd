@@ -4,8 +4,10 @@ import Task from "./Task";
 import { Input } from "@/components/ui/input";
 import { useAllTaskQuery } from "@/Redux/Features/Task/taskApi";
 import AddTask from "./AddTask";
+import { useState } from "react";
 
 export type Ttask = {
+    _id: string,
     title: string,
     description: string,
     dueDate: Date,
@@ -16,6 +18,7 @@ export type Ttask = {
 }
 
 const HomePage = () => {
+    const [searh, setSearch] = useState('')
     const { data: allTasks, isLoading, isError } = useAllTaskQuery(undefined)
 
     let content;
@@ -30,13 +33,18 @@ const HomePage = () => {
     }
     if (allTasks?.data?.length > 0) {
 
-        content = allTasks?.data?.map((task: Ttask, item: any) => <Task key={item} task={task} />)
+        content = allTasks?.
+        data?.
+        filter((item: any) => {
+            return searh.toLowerCase() === '' ? item : item?.title.toLowerCase().includes(searh) || item?.description.toLowerCase().includes(searh)
+        })?.
+        map((task: Ttask, item: any) => <Task key={item} task={task} />)
     }
 
     return (
         <div className="flex flex-col">
             <div className="flex items-center justify-between bg-white p-5 sticky top-0 border-b">
-                <Input placeholder="Search..." className="w-1/2" />
+                <Input onChange={(e) => setSearch(e.target.value)} placeholder="Search..." className="w-1/2" />
                 <div>
                     <Tabs defaultValue="account">
                         <TabsList>

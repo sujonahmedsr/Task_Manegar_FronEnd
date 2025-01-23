@@ -13,14 +13,14 @@ import {
     FormItem,
     FormLabel,
 } from "@/components/ui/form"
-// import {
-//     Select,
-//     SelectContent,
-//     SelectGroup,
-//     SelectItem,
-//     SelectTrigger,
-//     SelectValue,
-// } from "@/components/ui/select"
+import {
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select"
 import {
     zodResolver
 } from "@hookform/resolvers/zod"
@@ -45,7 +45,7 @@ import { useCurrentUser } from "@/Redux/Features/Auth/AuthSlice";
 const formSchema = z.object({
     title: z.string({ required_error: "Title is required." }),
     description: z.string({ required_error: "Description is required." }),
-    // priority: z.string({ required_error: "Priority is required." }),
+    priority: z.string({ required_error: "Priority is required." }),
     // dueDate: z.date({ required_error: "Due Date is required." }),
     // isCompleted: z.boolean().optional(),
 });
@@ -132,7 +132,7 @@ const AddTask = () => {
                             )}
                         />
 
-                        {/* <FormField
+                        <FormField
                                 control={form.control}
                                 name="priority"
                                 render={({ field, fieldState: { error } }) => (
@@ -148,9 +148,9 @@ const AddTask = () => {
                                                 </SelectTrigger>
                                                 <SelectContent>
                                                     <SelectGroup>
-                                                        <SelectItem value="Low">Low</SelectItem>
-                                                        <SelectItem value="Medium">Medium</SelectItem>
-                                                        <SelectItem value="High">High</SelectItem>
+                                                        <SelectItem value="low">Low</SelectItem>
+                                                        <SelectItem value="medium">Medium</SelectItem>
+                                                        <SelectItem value="high">High</SelectItem>
                                                     </SelectGroup>
                                                 </SelectContent>
                                             </Select>
@@ -160,7 +160,7 @@ const AddTask = () => {
                                         }
                                     </FormItem>
                                 )}
-                            /> */}
+                            />
 
                         {/* <FormField
                                 control={form.control}
