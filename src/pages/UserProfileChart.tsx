@@ -3,6 +3,7 @@ import dummyImg from "../assets/dummy.png"
 import { useUserQuery } from "@/Redux/Features/Auth/AuthApi";
 import { useAppSelector } from "@/Redux/hooks";
 import { useCurrentUser } from "@/Redux/Features/Auth/AuthSlice";
+import { Button } from "@/components/ui/button";
 
 const UserProfileChart = () => {
     const user = useAppSelector(useCurrentUser)
@@ -67,6 +68,12 @@ const UserProfileChart = () => {
             <div className="space-y-1 w-full">
                 <p className="text-lg font-semibold">Activity</p>
                 <Chart />
+            </div>
+
+            <div>
+                {
+                    user ? <Button onClick={handleLogOut}>Log Out</Button> : <Link to={'/login'}><Button>Log In</Button></Link>
+                }
             </div>
         </div>
     );
