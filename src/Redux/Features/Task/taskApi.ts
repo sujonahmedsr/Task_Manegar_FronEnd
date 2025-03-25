@@ -3,8 +3,8 @@ import { baseApi } from "@/Redux/Api/baseApi";
 const authApi = baseApi.injectEndpoints({
     endpoints: (builder) => ({
         allTask: builder.query({
-            query: () => ({
-                url: `/user/tasks`,
+            query: (priority = "all") => ({
+                url: `/user/tasks?priority=${priority}`,
                 method: "GET",
             }),
             providesTags: ['task']

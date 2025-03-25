@@ -14,6 +14,14 @@ const router = createBrowserRouter([
                 path: "/",
                 element: <HomePage />
             },
+            {
+                path: "/allTask",
+                element: <HomePage />
+            },
+            {
+                path: "/",
+                element: <HomePage />
+            },
         ],
     },
     {

@@ -18,8 +18,9 @@ export type Ttask = {
 }
 
 const HomePage = () => {
+    const [priority, setPriority] = useState("all");
     const [searh, setSearch] = useState('')
-    const { data: allTasks, isLoading, isError } = useAllTaskQuery(undefined)
+    const { data: allTasks, isLoading, isError } = useAllTaskQuery(priority)
 
     let content;
 
@@ -46,12 +47,12 @@ const HomePage = () => {
             <div className="flex items-center justify-between bg-white p-5 sticky top-0 border-b">
                 <Input onChange={(e) => setSearch(e.target.value)} placeholder="Search..." className="w-1/2" />
                 <div>
-                    <Tabs defaultValue="account">
+                    <Tabs defaultValue="all" onValueChange={(value) => setPriority(value)}>
                         <TabsList>
-                            <TabsTrigger value="All">All</TabsTrigger>
-                            <TabsTrigger value="Low">Low</TabsTrigger>
-                            <TabsTrigger value="Medium">Medium</TabsTrigger>
-                            <TabsTrigger value="High">High</TabsTrigger>
+                            <TabsTrigger value="all">All</TabsTrigger>
+                            <TabsTrigger value="low">Low</TabsTrigger>
+                            <TabsTrigger value="medium">Medium</TabsTrigger>
+                            <TabsTrigger value="high">High</TabsTrigger>
                         </TabsList>
                     </Tabs>
                 </div>
