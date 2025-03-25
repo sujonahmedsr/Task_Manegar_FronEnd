@@ -1,7 +1,9 @@
 import App from "@/App";
+import Complete from "@/pages/Complete";
 import HomePage from "@/pages/HomePage";
 import Login from "@/pages/Login";
 import SingInSignupProtectRoute from "@/pages/MainLayouts/SingInSignupProtectRoute";
+import Pending from "@/pages/Pending";
 import SignUp from "@/pages/SignUp";
 import { createBrowserRouter } from "react-router-dom";
 
@@ -15,12 +17,12 @@ const router = createBrowserRouter([
                 element: <HomePage />
             },
             {
-                path: "/allTask",
-                element: <HomePage />
+                path: "/completed",
+                element: <Complete />
             },
             {
-                path: "/",
-                element: <HomePage />
+                path: "/pending",
+                element: <Pending />
             },
         ],
     },
